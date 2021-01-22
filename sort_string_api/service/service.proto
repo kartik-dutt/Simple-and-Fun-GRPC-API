@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package service;
+
+message Request {
+  string inp = 1;
+}
+
+service AddService {
+  rpc Sort(Request) returns (Request);
+}
