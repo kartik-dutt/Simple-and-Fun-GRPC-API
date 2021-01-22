@@ -24,7 +24,7 @@ func (s *server) Sort(ctx *context.Context, req *service.Request) (*service.Requ
 func main() {
 	listner, _ := net.Listen("tcp", ":4040")
 	srv := grpc.NewServer()
-	service.RegisterService(srv, &server{})
+	service.RegisterAddServiceServer(srv, &server{})
 	reflection.Register(srv)
 	if e := srv.Serve(listner); e != nil {
 		panic(e)
