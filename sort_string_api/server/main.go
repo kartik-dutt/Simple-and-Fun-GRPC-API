@@ -2,7 +2,12 @@ package main
 
 import (
 	"context"
+	"net"
 	"sort"
+
+	service "github.com/kartik-dutt/Simple-and-Fun-GRPC-API/service"
+	grpc "google.golang.org/grpc"
+	reflection "google.golang.org/grpc/reflection"
 )
 
 type server struct{}
@@ -14,4 +19,14 @@ func (s *server) Sort(ctx *context.Context, req *service.Request) (*service.Requ
 	})
 
 	return &service.Request{Inp: inp}, nil
+}
+
+func main() {
+	listner, _ := net.Listen("tcp", ":4040")
+	srv := grpc.NewServer()
+	service.RegisterService(srv, &server{})
+	reflection.Register(srv)
+	if e := srv.Serve(listner); e != nil {
+		panic(e)
+	}
 }
